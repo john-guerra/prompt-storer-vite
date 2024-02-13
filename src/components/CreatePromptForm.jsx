@@ -1,12 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 export default class CreatePromptForm extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      prompts: [],
-    };
   }
 
   onCreate = (event) => {
@@ -16,9 +13,10 @@ export default class CreatePromptForm extends Component {
 
     console.log("onCreate", Object.fromEntries(formData));
 
-    this.setState({
-      prompts: [...this.state.prompts, Object.fromEntries(formData)],
-    });
+    event.target.querySelector("input[name=prompt]").value = "";
+    event.target.querySelector("input[name=response]").value = "";
+
+    this.props.onCreateInteraction(Object.fromEntries(formData));
   };
 
   render() {
@@ -56,9 +54,11 @@ export default class CreatePromptForm extends Component {
             </button>
           </div>
         </form>
-
-        <div>{JSON.stringify(this.state.prompts)}</div>
       </div>
     );
   }
 }
+
+CreatePromptForm.propTypes = {
+  onCreateInteraction: PropTypes.func.required,
+};
