@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import NavBar from "../fragments/NavBar";
+import Footer from "../fragments/Footer";
 
 class BaseTemplate extends Component {
   render() {
@@ -9,11 +10,7 @@ class BaseTemplate extends Component {
       <div className="PromptManager">
         <NavBar />
         {this.props.children}
-        <footer className="bg-body-tertiary text-center p-3">
-          <div className="container">
-            <span className="text-muted">Made by John with ❤️</span>
-          </div>
-        </footer>
+        <Footer />
       </div>
     );
   }
