@@ -9,6 +9,11 @@ class BaseTemplate extends Component {
       <div className="PromptManager">
         <NavBar />
         {this.props.children}
+        <footer className="bg-body-tertiary text-center p-3">
+          <div className="container">
+            <span className="text-muted">Made by John with ❤️</span>
+          </div>
+        </footer>
       </div>
     );
   }

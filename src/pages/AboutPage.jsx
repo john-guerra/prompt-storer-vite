@@ -3,12 +3,16 @@ import BaseTemplate from "../templates/BaseTemplate";
 
 import "./App.css";
 
-class IndexPage extends Component {
+class AboutPage extends Component {
   render() {
+    const urlParams = new URLSearchParams(new URL(window.location.href).search);
+    const id = urlParams.get("id");
+
+    console.log("Render AboutPage", this.props);
     return (
       <div className="App">
         <BaseTemplate>
-          <h1>About</h1>
+          <h1>About {id}</h1>
           <div>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse alias
             suscipit aliquid? Rerum eos quibusdam earum consequatur odit. Velit
@@ -21,4 +25,4 @@ class IndexPage extends Component {
   }
 }
 
-export default IndexPage;
+export default AboutPage;
