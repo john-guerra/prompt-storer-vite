@@ -1,43 +1,19 @@
-import Interaction from "./Interaction.js";
+// import Interaction from "./Interaction.js";
+import MyDBFirebase from "./MyDBFirebase.js";
 
 export default class PromptManager {
   constructor() {
-    this.interactions = [
-      {
-        id: 1,
-        prompt: "Prompt 1",
-        response: "I'm the one!!!!",
-      },
-      {
-        id: 2,
-        prompt: "Prompt dos",
-        response: "Buuuuuhhh",
-      },
-      {
-        id: 99,
-        prompt: "new oneee",
-        response: "lasssttt",
-      },
-      {
-        id: 23,
-        prompt: "veintitres",
-        response: "en español",
-      },
-    ];
+    this.interactions = [];
+    this.myDB = new MyDBFirebase();
   }
 
-  addInteraction(prompt, response) {
-    this.interactions.push(
-      new Interaction({
-        id: this.getNextId(),
-        prompt,
-        response,
-      })
-    );
+  // Downloads the interactions from Firebase
+  async getInteractions() {
+    return await this.myDB.getInteractions();
   }
 
-  getInteractions() {
-    return this.interactions;
+  async addInteraction(prompt, response) {
+    return await this.myDB.addInteraction(prompt, response);
   }
 
   getInteractionById(id) {

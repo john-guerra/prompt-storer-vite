@@ -32,7 +32,7 @@ export default class PromptCard extends Component {
 
 PromptCard.propTypes = {
   interaction: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    // id: PropTypes.number.isRequired,
     prompt: PropTypes.string.isRequired,
     response: PropTypes.string.isRequired,
   }),

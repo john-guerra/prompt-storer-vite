@@ -17,17 +17,20 @@ class IndexPage extends Component {
     };
   }
 
-  componentDidMount() {
-    const interactions = this.pm.getInteractions();
+  // DRY: Don't Repeat Yourself
+  refreshInteractions = async () => {
+    this.setState({ interactions: await this.pm.getInteractions() });
+  };
 
-    this.setState({ interactions });
+  async componentDidMount() {
+    console.log("IndexPage.componentDidMount()", "Fetching interactions...");
+    await this.refreshInteractions();
   }
 
   // Expects an interaction object
-  onCreateInteraction = (interaction) => {
-    this.setState({
-      interactions: [...this.state.interactions, interaction],
-    });
+  onCreateInteraction = async (interaction) => {
+    await this.pm.addInteraction(interaction);
+    await this.refreshInteractions();
   };
 
   render() {

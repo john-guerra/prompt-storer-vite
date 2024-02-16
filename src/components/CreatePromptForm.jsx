@@ -60,5 +60,5 @@ export default class CreatePromptForm extends Component {
 }
 
 CreatePromptForm.propTypes = {
-  onCreateInteraction: PropTypes.func.required,
+  onCreateInteraction: PropTypes.func.isRequired,
 };

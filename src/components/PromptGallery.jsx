@@ -9,8 +9,8 @@ export default class PromptGallery extends Component {
   render() {
     return (
       <div className="row">
-        {this.props.interactions.map((inter) => (
-          <PromptCard interaction={inter} key={inter.id} />
+        {this.props.interactions.map((inter, i) => (
+          <PromptCard interaction={inter} key={i} />
         ))}
       </div>
     );
@@ -20,7 +20,7 @@ export default class PromptGallery extends Component {
 PromptGallery.propTypes = {
   interactions: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
+      id: PropTypes.number,
       prompt: PropTypes.string.isRequired,
       response: PropTypes.string.isRequired,
     })
