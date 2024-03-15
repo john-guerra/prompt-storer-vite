@@ -6,6 +6,9 @@ import {
   collection,
   getDocs,
   addDoc,
+  updateDoc,
+  doc,
+  getDoc,
 } from "firebase/firestore/lite";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -18,13 +21,12 @@ export default class MyDBFirebase {
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   firebaseConfig = {
-    apiKey: "AIzaSyByEsbZ_qwmNZu_BmhPCuntHBi6rLqddtg",
-    authDomain: "promptstorernu.firebaseapp.com",
-    projectId: "promptstorernu",
-    storageBucket: "promptstorernu.appspot.com",
-    messagingSenderId: "977321063187",
-    appId: "1:977321063187:web:fbe52d33687629422760e6",
-    measurementId: "G-JXKMP55XNV",
+    apiKey: "AIzaSyDz5YlTOQtatcGU5yNZZhEVd1dusvRAlJc",
+    authDomain: "promptstore-b9887.firebaseapp.com",
+    projectId: "promptstore-b9887",
+    storageBucket: "promptstore-b9887.appspot.com",
+    messagingSenderId: "323731836233",
+    appId: "1:323731836233:web:05d5e9c773175f83289e98"
   };
 
   // Firebase database
@@ -53,7 +55,7 @@ export default class MyDBFirebase {
     const res = await getDocs(InteractionsCollection);
     console.log(
       "getInteractions() res",
-      res.docs.map((doc) => doc.data())
+      res.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
     );
     const interactions = [];
 
@@ -77,5 +79,31 @@ export default class MyDBFirebase {
     console.log("❤️⚠️📣 addInteraction() res", res, res.id);
 
     return res;
+  }
+  async updateInteractionById(interaction) {
+    console.log("Update Interaction", interaction, this.db);
+    if (!this.db) {
+      console.error("Database not initialized!");
+      return;
+    }
+    if (!interaction.id) {
+      console.error("Interaction id not found!");
+      return;
+    }
+    const id = interaction.id;
+    delete interaction.id;
+
+    const InteractionsCollection = collection(this.db, "Interactions");
+    const docRef = doc(InteractionsCollection, id);
+    await updateDoc(docRef, interaction);
+
+    await getDoc(docRef).then((doc) => {
+      if (doc.exists()) {
+        console.log("❤️⚠️📣 updateInteraction() res", doc.data());
+      } else {
+        console.log("No such document!");
+      }
+    });
+    return;
   }
 }

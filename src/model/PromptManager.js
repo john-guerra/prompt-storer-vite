@@ -24,6 +24,14 @@ export default class PromptManager {
     this.interactions.splice(id, 1);
   }
 
+  async updateInteractionById(id, prompt, response) {
+    if (id === undefined) {
+      alert("id is undefined");
+      return;
+    }
+    await this.myDB.updateInteractionById(id, prompt, response);
+  }
+
   getNextId() {
     return this.interactions?.at(-1).id + 1 || 1;
   }
