@@ -9,6 +9,7 @@ import {
   updateDoc,
   doc,
   getDoc,
+  Timestamp,
 } from "firebase/firestore/lite";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -63,6 +64,8 @@ export default class MyDBFirebase {
       interactions.push(doc.data());
     }
 
+    interactions.sort((a, b) => b.createdTime.toMillis() - a.createdTime.toMillis());
+
     return interactions;
   }
 
@@ -74,7 +77,7 @@ export default class MyDBFirebase {
     }
 
     const InteractionsCollection = collection(this.db, "Interactions");
-    const res = await addDoc(InteractionsCollection, interaction);
+    const res = await addDoc(InteractionsCollection, { ...interaction, createdTime: Timestamp.now() });
 
     console.log("❤️⚠️📣 addInteraction() res", res, res.id);
 
