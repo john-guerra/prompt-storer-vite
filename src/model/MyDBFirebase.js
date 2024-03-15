@@ -10,45 +10,45 @@ import {
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-export default class MyDBFirebase {
-  constructor() {
-    this.initializeFirebase();
-  }
-
+export default function MyDBFirebase() {
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  firebaseConfig = {
-    apiKey: "AIzaSyByEsbZ_qwmNZu_BmhPCuntHBi6rLqddtg",
-    authDomain: "promptstorernu.firebaseapp.com",
-    projectId: "promptstorernu",
-    storageBucket: "promptstorernu.appspot.com",
-    messagingSenderId: "977321063187",
-    appId: "1:977321063187:web:fbe52d33687629422760e6",
-    measurementId: "G-JXKMP55XNV",
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAsuZdkC8bARcNLGrmGUctJGU5LkzTluas",
+    authDomain: "shoppingcart-715ac.firebaseapp.com",
+    projectId: "shoppingcart-715ac",
+    storageBucket: "shoppingcart-715ac.appspot.com",
+    messagingSenderId: "1097057090220",
+    appId: "1:1097057090220:web:4023e48a297d82f2933d09",
   };
 
-  // Firebase database
-  db = null;
+  // Me object containing the public methods and properties
+  const me = {};
 
-  initializeFirebase() {
+  // Firebase database
+  let db = initializeFirebase();
+
+  function initializeFirebase() {
+    let db;
     // Initialize Firebase
-    const app = initializeApp(this.firebaseConfig);
+    const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
     console.log("Firebase initialized!", app, analytics);
 
-    const db = getFirestore(app);
+    db = getFirestore(app);
 
-    this.db = db;
+    return db;
   }
 
   // Downloads the interactions from Firebase
-  async getInteractions() {
-    if (!this.db) {
+  async function getInteractions() {
+    if (!db) {
       console.error("Database not initialized!");
       return [];
     }
 
-    const InteractionsCollection = collection(this.db, "Interactions");
+    const InteractionsCollection = collection(db, "Interactions");
 
     const res = await getDocs(InteractionsCollection);
     console.log(
@@ -64,18 +64,23 @@ export default class MyDBFirebase {
     return interactions;
   }
 
-  async addInteraction(interaction) {
-    console.log("Add Interaction", interaction, this.db);
-    if (!this.db) {
+  async function addInteraction(interaction) {
+    console.log("Add Interaction", interaction, db);
+    if (!db) {
       console.error("Database not initialized!");
       return;
     }
 
-    const InteractionsCollection = collection(this.db, "Interactions");
+    const InteractionsCollection = collection(db, "Interactions");
     const res = await addDoc(InteractionsCollection, interaction);
 
     console.log("❤️⚠️📣 addInteraction() res", res, res.id);
 
     return res;
   }
+
+  me.getInteractions = getInteractions;
+  me.addInteraction = addInteraction;
+
+  return me;
 }
