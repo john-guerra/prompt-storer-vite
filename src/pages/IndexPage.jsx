@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
 import BaseTemplate from "../templates/BaseTemplate";
 
@@ -7,55 +7,46 @@ import CreatePromptForm from "../components/CreatePromptForm";
 import PromptGallery from "../components/PromptGallery";
 import PromptManager from "../model/PromptManager.js";
 
-class IndexPage extends Component {
-  constructor(props) {
-    super(props);
+function IndexPage() {
+  const pm = new PromptManager();
 
-    this.pm = new PromptManager();
-    this.state = {
-      interactions: [],
-    };
-  }
+  const [interactions, setInteractions] = useState([]);
 
   // DRY: Don't Repeat Yourself
-  refreshInteractions = async () => {
-    this.setState({ interactions: await this.pm.getInteractions() });
+  const refreshInteractions = async () => {
+    setInteractions(await pm.getInteractions());
   };
 
-  async componentDidMount() {
+  useEffect(() => {
     console.log("IndexPage.componentDidMount()", "Fetching interactions...");
-    await this.refreshInteractions();
-  }
+    refreshInteractions();
+  }, []);
 
   // Expects an interaction object
-  onCreateInteraction = async (interaction) => {
-    await this.pm.addInteraction(interaction);
-    await this.refreshInteractions();
+  const onCreateInteraction = async (interaction) => {
+    await pm.addInteraction(interaction);
+    await refreshInteractions();
   };
 
-  render() {
-    return (
-      <div className="App">
-        <BaseTemplate>
-          <h1>Prompt Manager</h1>
+  return (
+    <div className="App">
+      <BaseTemplate>
+        <h1>Prompt Manager</h1>
 
-          <section>
-            <div className="row">
-              <div className="col-md-4 col-12">
-                <CreatePromptForm
-                  onCreateInteraction={this.onCreateInteraction}
-                />
-              </div>
-              <div className="col-md-8 col-12">
-                <h2>Prompts</h2>
-                <PromptGallery interactions={this.state.interactions} />
-              </div>
+        <section>
+          <div className="row">
+            <div className="col-md-4 col-12">
+              <CreatePromptForm onCreateInteraction={onCreateInteraction} />
             </div>
-          </section>
-        </BaseTemplate>
-      </div>
-    );
-  }
+            <div className="col-md-8 col-12">
+              <h2>Prompts</h2>
+              <PromptGallery interactions={interactions} />
+            </div>
+          </div>
+        </section>
+      </BaseTemplate>
+    </div>
+  );
 }
 
 export default IndexPage;

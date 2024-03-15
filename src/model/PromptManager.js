@@ -1,19 +1,18 @@
 // import Interaction from "./Interaction.js";
 import MyDBFirebase from "./MyDBFirebase.js";
 
-
 export default function PromptManager() {
   const me = {};
   const interactions = [];
   const myDB = new MyDBFirebase();
 
   // Downloads the interactions from Firebase
-  async function getInteractions() {
-    return await myDB.getInteractions();
+  function getInteractions() {
+    return myDB.getInteractions();
   }
 
-  async function addInteraction(prompt, response) {
-    return await myDB.addInteraction(prompt, response);
+  function addInteraction(prompt, response) {
+    return myDB.addInteraction(prompt, response);
   }
 
   function getInteractionById(id) {
