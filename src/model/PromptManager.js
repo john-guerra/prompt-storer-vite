@@ -1,30 +1,38 @@
 // import Interaction from "./Interaction.js";
 import MyDBFirebase from "./MyDBFirebase.js";
 
-export default class PromptManager {
-  constructor() {
-    this.interactions = [];
-    this.myDB = new MyDBFirebase();
-  }
+
+export default function PromptManager() {
+  const me = {};
+  const interactions = [];
+  const myDB = new MyDBFirebase();
 
   // Downloads the interactions from Firebase
-  async getInteractions() {
-    return await this.myDB.getInteractions();
+  async function getInteractions() {
+    return await myDB.getInteractions();
   }
 
-  async addInteraction(prompt, response) {
-    return await this.myDB.addInteraction(prompt, response);
+  async function addInteraction(prompt, response) {
+    return await myDB.addInteraction(prompt, response);
   }
 
-  getInteractionById(id) {
-    return this.interactions[id];
+  function getInteractionById(id) {
+    return interactions[id];
   }
 
-  deleteInteractionById(id) {
-    this.interactions.splice(id, 1);
+  function deleteInteractionById(id) {
+    interactions.splice(id, 1);
   }
 
-  getNextId() {
-    return this.interactions?.at(-1).id + 1 || 1;
+  function getNextId() {
+    return interactions?.at(-1).id + 1 || 1;
   }
+
+  me.getInteractions = getInteractions;
+  me.getInteractionById = getInteractionById;
+  me.addInteraction = addInteraction;
+  me.deleteInteractionById = deleteInteractionById;
+  me.getNextId = getNextId;
+
+  return me;
 }
